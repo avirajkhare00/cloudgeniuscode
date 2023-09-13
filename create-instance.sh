@@ -10,7 +10,7 @@ instance_response=$(aws ec2 run-instances \
     --user-data file://provision.txt \
     --block-device-mappings 'DeviceName=/dev/sda1,Ebs={VolumeSize=28,VolumeType=gp2,DeleteOnTermination=true,Encrypted=true}' \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value="CloudGenius Workstation"}]' 'ResourceType=volume,Tags=[{Key=Name,Value="Disk for Cloud Genius"}]')
-sleep 120
+sleep 10
 instanceId=$(echo -e "$instance_response" |  jq -r '.Instances[] | .InstanceId' | tr -d '"')
 PublicIpAddress=$(aws ec2 describe-instances \
     --instance-id $instanceId | jq -r '.Reservations[] | .Instances[] | .PublicIpAddress' | tr -d '"')
